@@ -1,0 +1,7 @@
+title: image
+type: object
+properties:
+  id:
+    type: integer
+  file:
+    type: string

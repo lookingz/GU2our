@@ -1,0 +1,13 @@
+title: booking
+type: object
+properties:
+  tour_id:
+    type: integer
+  user_id:
+    type: integer
+  price:
+    type: number
+  paid:
+    type: boolean
+  create_at:
+    type: integer

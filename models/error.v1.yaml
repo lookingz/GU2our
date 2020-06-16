@@ -4,10 +4,13 @@ description: A standard error object.
 x-tags:
   - Common
 properties:
-  code:
+  status:
     type: string
-    description: A code.
   message:
     type: string
-required:
-  - code
+x-examples:
+  Error Example:
+    status: fail
+    data:
+      user:
+        email: User with this email is not found.

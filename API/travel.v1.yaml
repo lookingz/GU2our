@@ -18,15 +18,141 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+              examples:
+                Login response:
+                  value:
+                    status: success
+                    data:
+                      access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTAzMjk4NTMsIm5iZiI6MTU5MDMyOTg1MywianRpIjoiNDdiNTRiNjgtYmUzNC00NTUwLTkwMjUtMGZlNWFhYWE5N2QyIiwiZXhwIjoxNTkwMzMwNzUzLCJpZGVudGl0eSI6ImxlbyIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.KuONpQYBYAyO2EtiGGwYugOSjr0PqILv05wJLQ-XPPE
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+              examples:
+                Username or password not right:
+                  value:
+                    status: fail
+                    data:
+                      user:
+                        email: Username or password is not right.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+              examples:
+                Error:
+                  value:
+                    status: error
+                    message: Unable to communicate with database
       description: Log in user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+            examples:
+              Login post:
+                value:
+                  email: james@gmail.com
+                  password: abc
+        description: ''
   /register:
     post:
       summary: ''
       operationId: post-register
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: ../models/user.v1.yaml
+              examples:
+                Created response:
+                  value:
+                    status: success
+                    data:
+                      user:
+                        email: johnsmith@gmail.com
+                        username: john
+                        password: abc
+                        photo: photo_01.jpg
+                        role: user
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+              examples:
+                Email already exists:
+                  value:
+                    status: fail
+                    data:
+                      user:
+                        email: email has already used.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+              examples:
+                Error:
+                  value:
+                    status: error
+                    message: Unable to communicate with database
       description: Register user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/user.v1.yaml
   /tours:
     get:
       summary: Your GET endpoint
@@ -75,6 +201,8 @@ paths:
       responses: {}
       operationId: get-bookings
       description: Get bookings list or booking item.
+      parameters: []
+      requestBody: {}
     post:
       summary: ''
       operationId: post-bookings
@@ -82,24 +210,130 @@ paths:
         '200':
           description: OK
       description: Create a booking item.
+    parameters: []
   /users:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      users:
+                        type: array
+                        items:
+                          $ref: ../models/user.v1.yaml
+              examples:
+                Get user list.:
+                  value:
+                    status: success
+                    data:
+                      users:
+                        - email: johnsmith@gmail.com
+                          username: john
+                          password: abc
+                          photo: photo_01.jpg
+                          role: user
+                        - email: kateLee@gmail.com
+                          username: kate
+                          password: abc
+                          photo: photo_02.jpg
+                          role: guide
+                        - email: james@gmail.com
+                          username: james
+                          password: abc
+                          photo: photo_00.jpg
+                          role: administrator
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+              examples:
+                Error:
+                  value:
+                    status: error
+                    message: Unable to communicate with database
       operationId: get-users
       description: Get all users list. Only for Administrator user.
-  '/users/{user_id}':
+  '/users/{email}':
     parameters:
       - schema:
           type: string
-        name: user_id
+        name: email
         in: path
         required: true
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: ../models/user.v1.yaml
+              examples:
+                Get one user though user_id.:
+                  value:
+                    status: success
+                    data:
+                      user:
+                        email: johnsmith@gmail.com
+                        username: john
+                        password: abc
+                        photo: photo_01.jpg
+                        role: user
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+              examples:
+                User not found:
+                  value:
+                    status: fail
+                    data:
+                      user:
+                        email: User with this email is not found.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+              examples:
+                Error:
+                  value:
+                    status: error
+                    message: Unable to communicate with database
       operationId: get-users-user_id
       description: Get user data though user_id.
     patch:
@@ -108,13 +342,119 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: ../models/user.v1.yaml
+              examples:
+                Update response:
+                  value:
+                    status: success
+                    data:
+                      user:
+                        email: johnsmith@gmail.com
+                        username: john
+                        password: abc
+                        photo: photo_01.jpg
+                        role: user
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+              examples:
+                User not found:
+                  value:
+                    status: fail
+                    data:
+                      user:
+                        email: User with this email is not found.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+              examples:
+                Error:
+                  value:
+                    status: error
+                    message: Unable to communicate with database
       description: Update user profile though user_id.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/user.v1.yaml
     delete:
       summary: ''
       operationId: delete-users-user_id
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: 'null'
+              examples:
+                Delete success response:
+                  value:
+                    status: success
+                    data: null
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  date:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+              examples:
+                User not found:
+                  value:
+                    status: fail
+                    data:
+                      user:
+                        email: User with this email is not found.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+              examples:
+                Error:
+                  value:
+                    status: error
+                    message: Unable to communicate with database
       description: Delete user though user_id. Only for Administrator user.
   /reviews:
     get:

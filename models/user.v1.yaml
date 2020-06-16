@@ -1,0 +1,14 @@
+title: user
+type: object
+description: User schema
+properties:
+  email:
+    type: string
+  username:
+    type: string
+  password:
+    type: string
+  photo:
+    type: string
+  role:
+    type: string

@@ -1,0 +1,15 @@
+title: location
+type: object
+properties:
+  id:
+    type: integer
+  name:
+    type: string
+  coordinates:
+    type: string
+  address:
+    type: string
+  description:
+    type: string
+  day:
+    type: integer

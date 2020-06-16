@@ -1,0 +1,13 @@
+title: review
+type: object
+properties:
+  toud_id:
+    type: integer
+  user_id:
+    type: integer
+  reviews:
+    type: string
+  rating:
+    type: number
+  create_at:
+    type: integer
