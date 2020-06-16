@@ -2,4 +2,38 @@ title: tour
 type: object
 properties:
   id:
+    type: integer
+  name:
     type: string
+  duration:
+    type: integer
+  max_group_size:
+    type: integer
+  difficulty:
+    type: string
+  rating_average:
+    type: number
+  rating_quantity:
+    type: integer
+  price:
+    type: number
+  summary:
+    type: string
+  cover_image:
+    type: string
+  locations:
+    type: array
+    items:
+      $ref: ./location.v1.yaml
+  start_dates:
+    type: array
+    items:
+      $ref: ./date.v1.yaml
+  images:
+    type: array
+    items:
+      $ref: ./image.v1.yaml
+  reviews:
+    type: array
+    items:
+      $ref: ./review.v1.yaml
