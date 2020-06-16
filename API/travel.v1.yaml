@@ -1,0 +1,139 @@
+openapi: 3.0.0
+info:
+  title: GU2our Travel
+  version: 1.0.0
+  license:
+    name: MIT
+  description: 'This is the API for GU2our product "Travel". It exposes functionality to manage website GU2our Travel.'
+  contact:
+    name: Song Liu
+    email: lookingz@gmail.com
+servers:
+  - url: 'http://127.0.0.1:5000'
+paths:
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+      description: Log in user.
+  /register:
+    post:
+      summary: ''
+      operationId: post-register
+      responses:
+        '200':
+          description: OK
+      description: Register user.
+  /tours:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tours
+      description: Get all tours list.
+    post:
+      summary: ''
+      operationId: post-tours
+      responses:
+        '200':
+          description: OK
+      description: Create a tour.
+  '/tours/{tour_id}':
+    parameters:
+      - schema:
+          type: string
+        name: tour_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tours-tour_id
+      description: Get tour date though tour_id.
+    patch:
+      summary: ''
+      operationId: patch-tours-tour_id
+      responses:
+        '200':
+          description: OK
+      description: Update tour infomation though tour_id. Only for administrator user.
+    delete:
+      summary: ''
+      operationId: delete-tours-tour_id
+      responses:
+        '200':
+          description: OK
+      description: Delete tour though tour_id. Only for administrator user.
+  /bookings:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-bookings
+      description: Get bookings list or booking item.
+    post:
+      summary: ''
+      operationId: post-bookings
+      responses:
+        '200':
+          description: OK
+      description: Create a booking item.
+  /users:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users
+      description: Get all users list. Only for Administrator user.
+  '/users/{user_id}':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-user_id
+      description: Get user data though user_id.
+    patch:
+      summary: ''
+      operationId: patch-users-user_id
+      responses:
+        '200':
+          description: OK
+      description: Update user profile though user_id.
+    delete:
+      summary: ''
+      operationId: delete-users-user_id
+      responses:
+        '200':
+          description: OK
+      description: Delete user though user_id. Only for Administrator user.
+  /reviews:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-reviews
+      description: Get reviews list or review item.
+    post:
+      summary: ''
+      operationId: post-reviews
+      responses:
+        '200':
+          description: OK
+      description: Create a review.
+components:
+  schemas: {}
+  securitySchemes:
+    access_token:
+      name: access_token
+      type: apiKey
+      in: query
