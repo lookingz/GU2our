@@ -315,6 +315,22 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      tour:
+                        $ref: ../models/tour.v1.yaml
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: get-tours-tour_id
       description: Get tour date though tour_id.
     patch:
@@ -323,30 +339,113 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      tour:
+                        $ref: ../models/tour.v1.yaml
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Update tour infomation though tour_id. Only for administrator user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/tour.v1.yaml
     delete:
       summary: Delete Tour
       operationId: delete-tours-tour_id
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: 'null'
       description: Delete tour though tour_id. Only for administrator user.
   /bookings:
     get:
       summary: Get Booking
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  date:
+                    type: array
+                    items:
+                      $ref: ../models/booking.v1.yaml
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: get-bookings
       description: Get bookings list or booking item.
-      parameters: []
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: tour_id
+          description: ''
+        - schema:
+            type: string
+          in: query
+          name: user_id
       requestBody: {}
     post:
       summary: Create Booking
       operationId: post-bookings
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      booking:
+                        $ref: ../models/booking.v1.yaml
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
       description: Create a booking item.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/booking.v1.yaml
     parameters: []
   /users:
     get:
@@ -404,11 +503,11 @@ paths:
                     message: Unable to communicate with database
       operationId: get-users
       description: Get all users list. Only for Administrator user.
-  '/users/{email}':
+  '/users/{user_id}':
     parameters:
       - schema:
           type: string
-        name: email
+        name: user_id
         in: path
         required: true
     get:
@@ -599,16 +698,60 @@ paths:
     get:
       summary: Get Review
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: ../models/review.v1.yaml
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: get-reviews
       description: Get reviews list or review item.
     post:
       summary: Create Review
       operationId: post-reviews
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      review:
+                        $ref: ../models/review.v1.yaml
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
       description: Create a review.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/review.v1.yaml
 components:
   schemas: {}
   securitySchemes:

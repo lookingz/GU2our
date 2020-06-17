@@ -33,7 +33,3 @@ properties:
     type: array
     items:
       $ref: ./image.v1.yaml
-  reviews:
-    type: array
-    items:
-      $ref: ./review.v1.yaml
