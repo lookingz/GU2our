@@ -353,6 +353,8 @@ paths:
                         $ref: ../models/tour.v1.yaml
         '400':
           description: Bad Request
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -378,6 +380,12 @@ paths:
                     type: string
                   data:
                     type: 'null'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Delete tour though tour_id. Only for administrator user.
   /bookings:
     get:
@@ -399,6 +407,8 @@ paths:
                       $ref: ../models/booking.v1.yaml
         '400':
           description: Bad Request
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -410,11 +420,12 @@ paths:
             type: integer
           in: query
           name: tour_id
-          description: ''
+          description: ID of tour item
         - schema:
             type: string
           in: query
           name: user_id
+          description: ID of user item
       requestBody: {}
     post:
       summary: Create Booking
@@ -490,6 +501,8 @@ paths:
                           password: abc
                           photo: photo_00.jpg
                           role: administrator
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -540,6 +553,8 @@ paths:
                         password: abc
                         photo: photo_01.jpg
                         role: user
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
           content:
@@ -603,6 +618,10 @@ paths:
                         password: abc
                         photo: photo_01.jpg
                         role: user
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
           content:
@@ -661,6 +680,8 @@ paths:
                   value:
                     status: success
                     data: null
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
           content:
@@ -722,6 +743,17 @@ paths:
           description: Internal Server Error
       operationId: get-reviews
       description: Get reviews list or review item.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: tour_id
+          description: ID of tour item
+        - schema:
+            type: integer
+          in: query
+          name: user_id
+          description: ID of user item
     post:
       summary: Create Review
       operationId: post-reviews
