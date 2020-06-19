@@ -112,10 +112,10 @@ paths:
                     status: success
                     data:
                       user:
+                        _id: 3
                         email: johnsmith@gmail.com
                         username: john
-                        password: abc
-                        photo: photo_01.jpg
+                        photo: default.jpg
                         role: user
         '400':
           description: Bad Request
@@ -154,7 +154,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/user.v1.yaml
+              type: object
+              properties:
+                email:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
       tags:
         - User
   /tours:
@@ -296,6 +303,12 @@ paths:
                     properties:
                       tour:
                         $ref: ../models/tour.v1.yaml
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
       description: Create a tour.
       requestBody:
         content:
@@ -659,7 +672,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/user.v1.yaml
+              type: object
+              properties:
+                name:
+                  type: string
+      parameters: []
     delete:
       summary: Delete User
       operationId: delete-users-user_id
@@ -715,6 +732,7 @@ paths:
                     status: error
                     message: Unable to communicate with database
       description: Delete user though user_id. Only for Administrator user.
+      parameters: []
   /reviews:
     get:
       summary: Get Review
